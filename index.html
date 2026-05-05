@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ann Mahé — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #00ff88;
+      --accent-dim: rgba(0,255,136,0.12);
+      --accent-mid: rgba(0,255,136,0.35);
+
+      /* Theme A: Dark terminal */
+      --bg-a: #0c0c0c;
+      --surface-a: #141414;
+      --border-a: rgba(255,255,255,0.08);
+      --text-a: #e8e8e4;
+      --text-dim-a: rgba(232,232,228,0.45);
+      --card-bg-a: #111111;
+
+      /* Theme B: White editorial */
+      --bg-b: #fafaf8;
+      --surface-b: #f2f2ef;
+      --border-b: rgba(0,0,0,0.1);
+      --text-b: #111110;
+      --text-dim-b: rgba(17,17,16,0.45);
+      --card-bg-b: #ffffff;
+
+      /* Theme C: Warm architectural */
+      --bg-c: #f4f1ec;
+      --surface-c: #ede9e2;
+      --border-c: rgba(60,45,20,0.12);
+      --text-c: #1e1a14;
+      --text-dim-c: rgba(30,26,20,0.45);
+      --card-bg-c: #faf7f2;
+    }
+
+    html { scroll-behavior: auto; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--accent-mid); border-radius: 2px; }
+
+    /* Typography */
+    .serif { font-family: 'DM Serif Display', serif; }
+    .mono { font-family: 'DM Mono', monospace; }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes scanline {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(100vh); }
+    }
+
+    .animate-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .animate-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in oklch, var(--bg) 80%, transparent);
+      transition: background 0.4s, border-color 0.4s;
+    }
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image:
+        linear-gradient(var(--text) 1px, transparent 1px),
+        linear-gradient(90deg, var(--text) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-eyebrow::before {
+      display: none;
+    }
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(56px, 8vw, 112px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .hero-name-italic {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-tagline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 300;
+      color: var(--text-dim);
+      margin-top: 28px;
+      max-width: 520px;
+      line-height: 1.6;
+    }
+    .hero-cta {
+      margin-top: 48px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      padding: 14px 28px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-ghost {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 14px 28px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: color 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .btn-ghost:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+
+    /* Section headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+    .section-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 3.5vw, 42px);
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Sections */
+    section {
+      padding: 100px 0;
+    }
+    section + section {
+      border-top: 1px solid var(--border);
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    .about-text {
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--text);
+    }
+    .about-text p + p { margin-top: 20px; }
+    .about-portrait {
+      float: right;
+      width: 180px;
+      height: 180px;
+      margin: 4px 0 16px 28px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      shape-outside: circle(50%);
+    }
+    .about-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.95);
+      transition: filter 0.5s ease, transform 0.6s ease;
+    }
+    .about-portrait:hover img {
+      filter: saturate(1.1);
+      transform: scale(1.04);
+    }
+    @media (max-width: 760px) {
+      .about-portrait { width: 140px; height: 140px; margin-left: 20px; }
+    }
+    .about-highlight {
+      color: var(--accent);
+      font-style: italic;
+      font-family: 'DM Serif Display', serif;
+    }
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .skill-group-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skill-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      background: transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Projects */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .project-card {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 32px;
+      align-items: start;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .project-card:first-child {
+      border-top: 1px solid var(--border);
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      left: -48px;
+      right: -48px;
+      top: 0;
+      bottom: 0;
+      background: var(--accent-dim);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .project-card:hover::after { opacity: 1; }
+
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      padding-top: 4px;
+    }
+    .project-body { position: relative; z-index: 1; }
+    .project-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(22px, 2.5vw, 30px);
+      color: var(--text);
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+      transition: color 0.2s;
+    }
+    .project-card:hover .project-title { color: var(--accent); }
+    .project-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.65;
+      max-width: 560px;
+      margin-bottom: 16px;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .project-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+    }
+    .project-tag.highlight {
+      border-color: var(--accent-mid);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+    .project-arrow {
+      font-size: 20px;
+      color: var(--text-dim);
+      padding-top: 4px;
+      transition: color 0.2s, transform 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+    .project-card:hover .project-arrow {
+      color: var(--accent);
+      transform: translate(4px, -4px);
+    }
+
+    /* Expanded project */
+    .project-expanded {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .project-expanded.open {
+      max-height: 600px;
+    }
+    .project-expanded-inner {
+      padding: 32px 0 40px 112px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+    @media (max-width: 768px) {
+      .project-card { grid-template-columns: 40px 1fr auto; gap: 16px; }
+      .project-expanded-inner { grid-template-columns: 1fr; padding: 24px 0 32px 56px; }
+    }
+    .expand-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+    .expand-content {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .expand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      margin-top: 16px;
+      transition: gap 0.2s;
+    }
+    .expand-link:hover { gap: 12px; }
+
+    /* HCD Section */
+    .hcd-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+    @media (max-width: 768px) {
+      .hcd-card { grid-template-columns: 1fr; padding: 32px; }
+    }
+    .hcd-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--accent);
+    }
+    .hcd-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .hcd-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 3vw, 40px);
+      color: var(--text);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    .hcd-subtitle {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+    .hcd-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .hcd-process {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .hcd-step {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .hcd-step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      padding-top: 2px;
+    }
+    .hcd-step-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 4px;
+      letter-spacing: 0.02em;
+    }
+    .hcd-step-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    .contact-heading {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 4vw, 56px);
+      color: var(--text);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .contact-heading em {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.2s;
+      group: true;
+    }
+    .contact-link:hover { border-color: var(--accent); }
+    .contact-link-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      width: 72px;
+      flex-shrink: 0;
+    }
+    .contact-link-value {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    .contact-link:hover .contact-link-value { color: var(--accent); }
+    .contact-link-arrow {
+      margin-left: auto;
+      color: var(--text-dim);
+      font-size: 14px;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .contact-link:hover .contact-link-arrow { color: var(--accent); transform: translate(2px, -2px); }
+
+    /* Footer */
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+    }
+    .footer-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+
+    /* Scroll progress */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--accent);
+      z-index: 200;
+      width: 0%;
+      transition: width 0.1s linear;
+      transform-origin: left;
+    }
+
+    /* Cursor dot */
+    .cursor-dot {
+      width: 48px;
+      height: 48px;
+      background: radial-gradient(circle, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.07) 50%, transparent 75%);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease;
+      mix-blend-mode: screen;
+    }
+
+    /* Theme toggle */
+    .theme-switcher {
+      display: flex;
+      gap: 8px;
+    }
+    .theme-btn {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .theme-btn:hover { transform: scale(1.2); }
+    .theme-btn.active { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel">
+
+
+
+
+
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "dark",
+  "accentColor": "#94dfff",
+  "showCursor": true,
+  "compactNav": false,
+  "heroStyle": "name-split"
+} /*EDITMODE-END*/;
+
+const THEMES = {
+  dark: {
+    bg: '#0c0c0c',
+    surface: '#141414',
+    border: 'rgba(255,255,255,0.08)',
+    text: '#e8e8e4',
+    textDim: 'rgba(232,232,228,0.45)',
+    cardBg: '#111111'
+  },
+  light: {
+    bg: '#fafaf8',
+    surface: '#f2f2ef',
+    border: 'rgba(0,0,0,0.1)',
+    text: '#111110',
+    textDim: 'rgba(17,17,16,0.45)',
+    cardBg: '#ffffff'
+  },
+  warm: {
+    bg: '#f4f1ec',
+    surface: '#ede9e2',
+    border: 'rgba(60,45,20,0.12)',
+    text: '#1e1a14',
+    textDim: 'rgba(30,26,20,0.45)',
+    cardBg: '#faf7f2'
+  }
+};
+
+const PROJECTS = [
+{
+  id: 'bb84',
+  num: '01',
+  title: 'Quantum Cryptography Simulator',
+  subtitle: 'BB84 & EPR quantum key distribution in Wolfram Mathematica',
+  desc: 'A configurable simulator of the BB84 and EPR quantum key distribution protocols — modeling qubit preparation, basis selection, eavesdropping interference, and error rate analysis under varying noise scenarios.',
+  detail: 'Originally built in Wolfram Mathematica and currently being adapted to Python, this simulator models quantum cryptography protocols with configurable measurement bases, noise levels, and eavesdropping parameters. It includes visual analysis of error rates across different channel conditions and demonstrates how quantum measurement disturbance can make eavesdropping detectable in principle.',
+  tags: ['Quantum Computing', 'Cryptography', 'Wolfram Mathematica', 'Simulation'],
+  highlight: 'Quantum Computing',
+  links: []
+},
+{
+  id: 'ticket',
+  num: '02',
+  title: 'TicketTracker',
+  subtitle: 'Google Flights, but for live event tickets',
+  desc: 'A price-tracking and comparison tool for live event tickets — bringing the transparency and intelligence of flight search to the fragmented, opaque secondary ticket market.',
+  detail: 'Aggregates ticket listings across platforms, tracks price history, and surfaces the optimal time to buy. Inspired by the friction of navigating StubHub, Ticketmaster, and SeatGeek separately for the same show.',
+  tags: ['Web App', 'Data Aggregation', 'Price Tracking', 'UX'],
+  highlight: 'Web App',
+  links: []
+},
+{
+  id: 'spin',
+  num: '03',
+  title: 'Put A Spin On It',
+  subtitle: 'Making silicon spin qubits accessible',
+  desc: 'Unitary x Microsoft Hackathon submission. An educational platform demystifying silicon spin qubits, one of the most promising but least-understood approaches to quantum computing hardware.',
+  detail: 'Interactive visualizations and guided explanations take learners from classical bits to spin-based qubits. Designed for curious non-specialists who want more than a surface-level overview of quantum hardware.',
+  tags: ['Education', 'Quantum Hardware', 'Interactive', 'Web'],
+  highlight: 'Education',
+  links: []
+},
+{
+  id: 'safetynet',
+  num: '04',
+  title: 'SafetyNet',
+  subtitle: 'Human-centered design · Columbia HCD Program',
+  desc: 'Designed a community-centered emergency communication system that turns trusted local spaces, such as bodegas, food carts, coffee shops, and doormen, into verified disaster information hubs for New Yorkers. Final Project for Human Centered Design.',
+  detail: 'Built a service design and app prototype for SafetyNet, a decentralized emergency communication network connecting residents, local hubs, and city agencies. The platform combines digital maps, physical storefront signage, emergency resource packets, and two-way local reporting to improve disaster communication for newcomers, immigrants, and residents in unfamiliar neighborhoods.',
+  tags: ['Human Centered Design', 'Civic Tech', 'UX Research', 'Systems Design'],
+  highlight: 'HCD',
+  links: [{ label: 'Download design document', url: 'uploads/SafetyNet Design Document.pdf', download: true }]
+},
+{
+  id: 'research',
+  num: '05',
+  title: 'Cooperator-Defector Dynamics',
+  subtitle: 'Published in the Biophysical Journal · APS Global Physics Summit 2025',
+  desc: 'Spatial and probabilistic models combining game theory, computer science, and biophysics to simulate cell population dynamics. This paper explores how cooperation emerges and persists under evolutionary pressure.',
+  detail: 'Developed computational models in Python that integrate spatial game theory with probabilistic influence. Published in Biophysical Journal and presented at the BPS Global Summit in 2025. The models simulate cooperator-defector dynamics in biological systems.',
+  tags: ['Research', 'Biophysics', 'Game Theory', 'Python', 'Published'],
+  highlight: 'Published',
+  links: [{ label: 'Read paper', url: 'https://www.cell.com/biophysj/fulltext/S0006-3495(24)01527-3' }]
+}];
+
+
+
+function useTheme(themeName, accentColor) {
+  const t = THEMES[themeName] || THEMES.dark;
+  React.useEffect(() => {
+    const root = document.documentElement;
+    Object.entries({
+      '--bg': t.bg,
+      '--surface': t.surface,
+      '--border': t.border,
+      '--text': t.text,
+      '--text-dim': t.textDim,
+      '--card-bg': t.cardBg,
+      '--accent': accentColor,
+      '--accent-dim': accentColor + '1e',
+      '--accent-mid': accentColor + '59'
+    }).forEach(([k, v]) => root.style.setProperty(k, v));
+  }, [themeName, accentColor]);
+}
+
+function useScrollAnimation() {
+  React.useEffect(() => {
+    const els = document.querySelectorAll('.animate-up');
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
+
+function CursorDot({ enabled }) {
+  const dotRef = React.useRef(null);
+  React.useEffect(() => {
+    if (!enabled) return;
+    const move = (e) => {
+      if (dotRef.current) {
+        dotRef.current.style.left = e.clientX + 'px';
+        dotRef.current.style.top = e.clientY + 'px';
+      }
+    };
+    window.addEventListener('mousemove', move);
+    return () => window.removeEventListener('mousemove', move);
+  }, [enabled]);
+  if (!enabled) return null;
+  return <div className="cursor-dot" ref={dotRef} />;
+}
+
+function Nav({ theme, setTheme, tweakActive }) {
+  const [scrolled, setScrolled] = React.useState(false);
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <nav style={{ padding: scrolled ? '14px 48px' : '20px 48px', transition: 'padding 0.3s' }}>
+          <a className="nav-logo" href="#top">am</a>
+          <ul className="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Work</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <div className="theme-switcher">
+            {['dark', 'light', 'warm'].map((t) =>
+        <div
+          key={t}
+          className={`theme-btn${theme === t ? ' active' : ''}`}
+          onClick={() => setTheme(t)}
+          title={t}
+          style={{
+            background: t === 'dark' ? '#0c0c0c' : t === 'light' ? '#fafaf8' : '#f4f1ec'
+          }} />
+
+        )}
+          </div>
+        </nav>);
+
+}
+
+function useTypewriter(lines, { startDelay = 300, charDelay = 38, lineDelay = 180 } = {}) {
+  const [displayed, setDisplayed] = React.useState(lines.map(() => ''));
+  const [allDone, setAllDone] = React.useState(false);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    async function type() {
+      await new Promise((r) => setTimeout(r, startDelay));
+      for (let i = 0; i < lines.length; i++) {
+        for (let j = 0; j <= lines[i].length; j++) {
+          if (cancelled) return;
+          setDisplayed((prev) => prev.map((v, idx) => idx === i ? lines[i].slice(0, j) : v));
+          await new Promise((r) => setTimeout(r, charDelay));
+        }
+        if (i < lines.length - 1) await new Promise((r) => setTimeout(r, lineDelay));
+      }
+      setAllDone(true);
+    }
+    type();
+    return () => {cancelled = true;};
+  }, []);
+
+  return [displayed, allDone];
+}
+
+function Hero({ heroStyle }) {
+  const [displayed, typeDone] = useTypewriter(['CS @ Columbia · Physics + Economics @ Claremont McKenna'], { startDelay: 600, charDelay: 45, lineDelay: 280 });
+  const [showRest, setShowRest] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeDone) setTimeout(() => setShowRest(true), 100);
+  }, [typeDone]);
+
+  return (
+    <section className="hero" id="top">
+      <div className="hero-grid-bg" />
+      <div className="container hero-content">
+        <div className="hero-eyebrow" style={{ animation: 'fadeUp 0.7s ease 0.1s both' }}>
+          {displayed[0]}<span style={{ opacity: typeDone ? 0 : 1, animation: !typeDone ? 'blink 1s step-end infinite' : 'none', transition: 'opacity 0.3s' }}>|</span>
+        </div>
+        <h1 className="hero-name" style={{ animation: 'fadeUp 0.7s ease 0.2s both' }}>
+          {heroStyle === 'name-split' ?
+          <>Ann<br /><span className="hero-name-italic">Mahé</span></> :
+
+          <><span className="hero-name-italic">Ann</span>{' '}Mahé</>
+          }
+        </h1>
+        <div className="hero-cta" style={{ opacity: showRest ? 1 : 0, transform: showRest ? 'translateY(0)' : 'translateY(16px)', transition: 'opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s' }}>
+          <a className="btn-primary" href="#projects">View Work</a>
+          <a className="btn-ghost" href="#contact">Get in Touch</a>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function About() {
+  return (
+    <section id="about">
+          <div className="container">
+            <div className="section-header animate-up">
+              <span className="section-num">00</span>
+              <h2 className="section-title serif">About</h2>
+              <div className="section-line" />
+            </div>
+            <div className="about-grid">
+              <div className="about-text animate-up">
+                <div className="about-portrait">
+                  <img src="uploads/ann-photo.jpg" alt="Ann Mahé" />
+                </div>
+                <p>
+                  <span className="about-highlight">Hi! I’m Ann</span>
+                </p>
+                <p style={{ marginTop: '20px' }}>
+                  I’m currently studying Computer Science at Columbia University and recently graduated from Claremont McKenna with a dual degree in Physics and Economics.
+                </p>
+                <p style={{ marginTop: '20px' }}>
+                  My experience spans backend engineering, AI integration, and quantum computing, and I’m especially drawn to interdisciplinary projects that turn complex systems into practical, useful products.
+                </p>
+                <a className="btn-ghost" href="uploads/Ann_Mahe_Resume.docx" download style={{ marginTop: '32px', display: 'inline-block' }}>Download Résumé ↓</a>
+              </div>
+              <div className="skills-grid animate-up" style={{ animationDelay: '0.15s' }}>
+                <div>
+                  <div className="skill-group-label">Languages</div>
+                  <div className="skill-tags">
+                    {['Python', 'C', 'SQL', 'R', 'JavaScript', 'MATLAB', 'Maple', 'Wolfram Mathematica'].map((s) =>
+                <span key={s} className="skill-tag">{s}</span>
+                )}
+                  </div>
+                </div>
+                <div>
+                  <div className="skill-group-label">Tools & Frameworks</div>
+                  <div className="skill-tags">
+                    {['Git/GitHub', 'PostgreSQL', 'InfluxDB', 'Grafana', 'Pinecone', 'Airtable', 'Unix/Linux'].map((s) =>
+                <span key={s} className="skill-tag">{s}</span>
+                )}
+                  </div>
+                </div>
+                <div>
+                  <div className="skill-group-label">Domains</div>
+                  <div className="skill-tags">
+                    {['Quantum Computing', 'AI Integration', 'Machine Learning'].map((s) =>
+                <span key={s} className="skill-tag">{s}</span>
+                )}
+                  </div>
+                </div>
+                <div>
+                  <div className="skill-group-label">Human Languages</div>
+                  <div className="skill-tags">
+                    {['French (native)', 'Mandarin (native)', 'Spanish (C1)', 'English'].map((s) =>
+                <span key={s} className="skill-tag">{s}</span>
+                )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>);
+
+}
+
+function ProjectCard({ project, index }) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <div className="animate-up" style={{ transitionDelay: `${index * 0.1}s` }}>
+          <div className="project-card" onClick={() => setOpen((o) => !o)}>
+            <div className="project-num mono">{project.num}</div>
+            <div className="project-body">
+              <div className="project-title">{project.title}</div>
+              <div className="project-desc">{project.desc}</div>
+              <div className="project-tags">
+                {project.tags.map((tag) =>
+            <span key={tag} className={`project-tag${tag === project.highlight ? ' highlight' : ''}`}>{tag}</span>
+            )}
+              </div>
+            </div>
+            <div className="project-arrow">{open ? '↙' : '↗'}</div>
+          </div>
+          <div className={`project-expanded${open ? ' open' : ''}`}>
+            <div className="project-expanded-inner">
+              <div>
+                <div className="expand-label">About the project</div>
+                <div className="expand-content">{project.detail}</div>
+                {project.links.length > 0 ?
+            project.links.map((l) =>
+            l.download ?
+            <a key={l.url} className="expand-link" href={l.url} download>
+                    {l.label} →
+                  </a> :
+
+            <a key={l.url} className="expand-link" href={l.url} target="_blank" rel="noopener noreferrer">
+                    {l.label} →
+                  </a>
+            ) :
+            <a className="expand-link" href="https://github.com/ann-mahe" target="_blank" rel="noopener noreferrer">
+                  View on GitHub →
+                </a>
+            }
+              </div>
+              <div>
+                <div className="expand-label">Stack & approach</div>
+                <div className="expand-content">
+                  <div className="skill-tags" style={{ gap: '6px' }}>
+                    {project.tags.map((t) =>
+                <span key={t} className="skill-tag" style={{ fontSize: '10px' }}>{t}</span>
+                )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>);
+
+}
+
+function Projects() {
+  return (
+    <section id="projects">
+          <div className="container">
+            <div className="section-header animate-up">
+              <span className="section-num">01</span>
+              <h2 className="section-title serif">Projects</h2>
+              <div className="section-line" />
+            </div>
+            <div className="projects-list">
+              {PROJECTS.map((p, i) => <ProjectCard key={p.id} project={p} index={i} />)}
+            </div>
+          </div>
+        </section>);
+
+}
+
+
+
+function Contact() {
+  return (
+    <section id="contact">
+          <div className="container">
+            <div className="section-header animate-up">
+              <span className="section-num">02</span>
+              <h2 className="section-title serif">Contact</h2>
+              <div className="section-line" />
+            </div>
+            <div className="contact-grid">
+              <div className="animate-up">
+                <div className="contact-heading">
+                  Let's build<br />something<br /><em>interesting!</em>
+                </div>
+              </div>
+              <div className="animate-up" style={{ transitionDelay: '0.15s' }}>
+                <div className="contact-links">
+                  {[
+              { label: 'Email', value: 'am6906@columbia.edu', href: 'mailto:am6906@columbia.edu' },
+              { label: 'GitHub', value: 'github.com/ann-mahe', href: 'https://github.com/ann-mahe' },
+              { label: 'LinkedIn', value: 'linkedin.com/in/annmahe', href: 'https://www.linkedin.com/in/annmahe/' }].
+              map((link) =>
+              <a key={link.label} className="contact-link" href={link.href} target="_blank" rel="noopener noreferrer">
+                      <span className="contact-link-label">{link.label}</span>
+                      <span className="contact-link-value">{link.value}</span>
+                      <span className="contact-link-arrow">↗</span>
+                    </a>
+              )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>);
+
+}
+
+function App() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  useTheme(tweaks.theme, tweaks.accentColor);
+  useScrollAnimation();
+
+  return (
+    <>
+          <CursorDot enabled={tweaks.showCursor} />
+          <Nav theme={tweaks.theme} setTheme={(t) => setTweak('theme', t)} />
+          <main>
+            <Hero heroStyle={tweaks.heroStyle} />
+            <About />
+            <Projects />
+            <Contact />
+          </main>
+          <footer>
+            <div className="container">
+              <div className="footer-inner">
+                <span className="footer-copy">© 2026 Ann Mahé</span>
+                <span className="footer-tag">annmahe_portfolio</span>
+              </div>
+            </div>
+          </footer>
+          <TweaksPanel>
+            <TweakSection label="Theme" />
+            <TweakRadio label="Color Mode" value={tweaks.theme} options={['dark', 'light', 'warm']} onChange={(v) => setTweak('theme', v)} />
+            <TweakColor label="Accent Color" value={tweaks.accentColor} onChange={(v) => setTweak('accentColor', v)} />
+            <TweakSection label="Hero" />
+            <TweakRadio label="Name Layout" value={tweaks.heroStyle} options={['name-split', 'name-inline']} onChange={(v) => setTweak('heroStyle', v)} />
+            <TweakSection label="Details" />
+            <TweakToggle label="Custom Cursor Dot" value={tweaks.showCursor} onChange={(v) => setTweak('showCursor', v)} />
+          </TweaksPanel>
+        </>);
+
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+<script>
+  // Wait for React to render then init Lenis
+  setTimeout(() => {
+    const lenis = new Lenis({
+      duration: 1.3,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothTouch: false,
+    });
+
+    // Scroll progress bar
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.appendChild(progressBar);
+
+    lenis.on('scroll', ({ progress }) => {
+      progressBar.style.width = (progress * 100) + '%';
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Smooth anchor clicks — re-bind after React renders
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const id = anchor.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          e.preventDefault();
+          lenis.scrollTo(target, { offset: -80, duration: 1.6 });
+        }
+      });
+    });
+
+    // Subtle hero parallax
+    const heroGrid = document.querySelector('.hero-grid-bg');
+    const heroContent = document.querySelector('.hero-content');
+    lenis.on('scroll', ({ scroll }) => {
+      if (heroGrid) heroGrid.style.transform = `translateY(${scroll * 0.25}px)`;
+      if (heroContent) heroContent.style.transform = `translateY(${scroll * 0.12}px)`;
+    });
+  }, 300);
+</script>
+</body>
+</html>
