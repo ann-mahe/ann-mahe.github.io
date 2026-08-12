@@ -34,14 +34,6 @@
       --text-b: #111110;
       --text-dim-b: rgba(17,17,16,0.45);
       --card-bg-b: #ffffff;
-
-      /* Theme C: Warm architectural */
-      --bg-c: #f4f1ec;
-      --surface-c: #ede9e2;
-      --border-c: rgba(60,45,20,0.12);
-      --text-c: #1e1a14;
-      --text-dim-c: rgba(30,26,20,0.45);
-      --card-bg-c: #faf7f2;
     }
 
     html { scroll-behavior: auto; }
@@ -349,6 +341,55 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+    .role-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .role-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-left: 10px;
+      border-left: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .role-item:hover { border-left-color: var(--accent); }
+    .role-title {
+      font-size: 13px;
+      color: var(--text);
+      letter-spacing: -0.005em;
+    }
+    .role-org {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Experience variants */
+    .role-timeline { position: relative; padding-left: 20px; display: flex; flex-direction: column; gap: 20px; }
+    .role-timeline::before { content: ''; position: absolute; left: 3px; top: 6px; bottom: 6px; width: 1px; background: var(--border); }
+    .rt-item { position: relative; }
+    .rt-item::before { content: ''; position: absolute; left: -20px; top: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--bg); border: 1px solid var(--accent-mid); transition: background 0.25s, border-color 0.25s; }
+    .rt-item:hover::before { background: var(--accent); border-color: var(--accent); }
+    .rt-role { font-family: 'DM Serif Display', serif; font-size: 17px; letter-spacing: -0.01em; color: var(--text); line-height: 1.25; transition: color 0.25s; }
+    .rt-item:hover .rt-role { color: var(--accent); }
+    .rt-org { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-top: 5px; }
+
+    .role-display { display: flex; flex-direction: column; gap: 22px; }
+    .rd-item { border-left: 2px solid var(--accent-mid); padding-left: 14px; transition: border-color 0.25s; }
+    .rd-item:hover { border-left-color: var(--accent); }
+    .rd-role { font-family: 'DM Serif Display', serif; font-size: 19px; line-height: 1.2; letter-spacing: -0.015em; color: var(--text); transition: color 0.25s; }
+    .rd-item:hover .rd-role { color: var(--accent); }
+    .rd-org { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-top: 7px; }
+
+    .role-cards { display: flex; flex-direction: column; gap: 10px; }
+    .rc-item { border: 1px solid var(--border); background: var(--card-bg); padding: 16px 18px; transition: border-color 0.25s, transform 0.25s; }
+    .rc-item:hover { border-color: var(--accent-mid); transform: translateX(4px); }
+    .rc-role { font-size: 14.5px; font-weight: 500; color: var(--text); line-height: 1.3; }
+    .rc-org { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-top: 6px; }
 
     /* Projects */
     .projects-list {
@@ -439,6 +480,138 @@
     .project-card:hover .project-arrow {
       color: var(--accent);
       transform: translate(4px, -4px);
+    }
+
+    /* Stacked projects */
+    .projects-stack { position: relative; height: calc(var(--n) * 100vh); }
+    .stack-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+
+    /* Also into */
+    .interests-panel {
+      position: relative;
+      z-index: 20;
+      background: var(--bg);
+      padding: 88px 0 40px;
+      min-height: 0;
+    }
+    .interests-head { display: flex; align-items: center; gap: 16px; margin-bottom: 48px; }
+    .interests-head .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.1em; }
+    .interests-head h2 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 4vw, 52px); font-weight: 400; letter-spacing: -0.02em; }
+    .interests-head .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    #contact { position: relative; z-index: 30; background: var(--bg); }
+
+    /* variant: typewriter */
+    .it-wrap { min-height: 200px; display: flex; flex-direction: column; justify-content: center; }
+    .it-stage { display: flex; align-items: center; gap: 34px; }
+    .it-fig { width: 108px; height: 86px; flex: none; color: var(--accent); animation: figIn 0.5s cubic-bezier(0.2,0,0.2,1); }
+    .it-fig svg { overflow: visible; }
+    .sk-float { animation: skFloat 3.2s ease-in-out infinite; }
+    .sk-steam { animation: skSteam 2.6s ease-in-out infinite; transform-origin: bottom; }
+    .sk-bob { animation: skBob 3s ease-in-out infinite; }
+    .sk-wave { animation: skWave 2.4s ease-in-out infinite; }
+    .sk-bounce { animation: skBounce 1.5s cubic-bezier(0.4,0,0.5,1) infinite; }
+    .sk-carve { animation: skCarve 3.6s ease-in-out infinite; transform-origin: 60px 50px; }
+    .sk-fan1 { animation: skFan1 3.4s ease-in-out infinite; transform-origin: 40px 72px; }
+    .sk-fan2 { animation: skFan2 3.4s ease-in-out infinite; transform-origin: 80px 72px; }
+    .sk-d2 { animation-delay: 0.55s; }
+    @keyframes skFloat { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-5px) } }
+    @keyframes skSteam { 0% { opacity: 0.25; transform: translateY(3px) scaleY(0.92) } 50% { opacity: 0.85; transform: translateY(-3px) scaleY(1.05) } 100% { opacity: 0.25; transform: translateY(3px) scaleY(0.92) } }
+    @keyframes skBob { 0%,100% { transform: translateY(0) rotate(0deg) } 50% { transform: translateY(-4px) rotate(-2deg) } }
+    @keyframes skWave { 0%,100% { transform: translateX(0) } 50% { transform: translateX(-11px) } }
+    @keyframes skBounce { 0% { transform: translateY(0) } 45% { transform: translateY(34px) scaleY(0.94) } 60% { transform: translateY(28px) } 100% { transform: translateY(0) } }
+    @keyframes skCarve { 0%,100% { transform: rotate(-4deg) translateY(0) } 50% { transform: rotate(5deg) translateY(-3px) } }
+    @keyframes skFan1 { 0%,100% { transform: rotate(-10deg) } 50% { transform: rotate(-19deg) } }
+    @keyframes skFan2 { 0%,100% { transform: rotate(10deg) } 50% { transform: rotate(19deg) } }
+    @media (prefers-reduced-motion: reduce) { .sk-float, .sk-steam, .sk-bob, .sk-wave, .sk-bounce, .sk-carve, .sk-fan1, .sk-fan2 { animation: none } }
+    @keyframes figIn { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+    .it-line { font-family: 'DM Serif Display', serif; font-size: clamp(36px, 7vw, 88px); line-height: 1.08; letter-spacing: -0.03em; color: var(--text); }
+    .it-caret { display: inline-block; width: 3px; height: 0.78em; background: var(--accent); margin-left: 8px; vertical-align: baseline; animation: blink 1s steps(1) infinite; }
+    .it-dots { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 44px; }
+    .it-dot { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); opacity: 0.5; transition: color 0.3s, opacity 0.3s; background: none; border: 0; padding: 0; cursor: pointer; }
+    .it-dot:hover { opacity: 1; color: var(--text); }
+    .it-dot.on { color: var(--accent); opacity: 1; }
+
+    /* variant: cards */
+    .fan { display: flex; justify-content: center; align-items: center; min-height: 340px; padding: 30px 0; perspective: 1400px; }
+    .fan-card { width: 168px; height: 246px; margin: 0 -30px; position: relative; transform: rotate(var(--r)) translateY(var(--y)); transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.2,0,0.2,1), margin 0.55s cubic-bezier(0.2,0,0.2,1); cursor: pointer; }
+    .fan:hover .fan-card { margin: 0 8px; }
+    .fan-card:hover { transform: rotate(0deg) translateY(-22px); z-index: 5; }
+    .fan-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.3,0,0.2,1); }
+    .fan-card:hover .fan-inner { transform: rotateY(180deg); }
+    .fan-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 1px solid var(--border); background: var(--card-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-align: center; }
+    .fan-front { background-image: repeating-linear-gradient(45deg, var(--accent-dim) 0 6px, transparent 6px 12px); }
+    .fan-mark { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+    .fan-back { transform: rotateY(180deg); border-color: var(--accent-mid); }
+    .fan-name { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.15; letter-spacing: -0.01em; color: var(--text); }
+    .fan-note { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .fan-hint { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); text-align: center; margin-top: 8px; }
+
+    /* variant: wipe */
+    .wp-list { display: flex; flex-direction: column; }
+    .wp-row { border-bottom: 1px solid var(--border); padding: 24px 0; overflow: hidden; display: flex; align-items: baseline; gap: 20px; }
+    .wp-row:first-child { border-top: 1px solid var(--border); }
+    .wp-name { font-family: 'DM Serif Display', serif; font-size: clamp(30px, 4.6vw, 62px); letter-spacing: -0.025em; line-height: 1.05; color: var(--text); clip-path: inset(0 100% 0 0); transform: translateY(0.16em); transition: clip-path 0.95s cubic-bezier(0.2,0,0.2,1), transform 0.95s cubic-bezier(0.2,0,0.2,1), color 0.3s; }
+    .wp-row.in .wp-name { clip-path: inset(0 0 0 0); transform: translateY(0); }
+    .wp-row:hover .wp-name { color: var(--accent); }
+    .wp-note { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); opacity: 0; transition: opacity 0.6s ease 0.4s; }
+    .wp-row.in .wp-note { opacity: 1; }
+
+    @media (max-width: 768px) {
+      .interests-panel { min-height: 0; padding: 48px 0 64px; }
+      .it-stage { flex-direction: column; align-items: flex-start; gap: 18px; }
+      .fan { flex-wrap: wrap; gap: 12px; min-height: 0; }
+      .fan-card, .fan:hover .fan-card { margin: 0; transform: none; }
+      .wp-row { flex-direction: column; gap: 6px; }
+    }
+    .stack-card {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 32px;
+      align-items: start;
+      padding: 18px 0 92px;
+      align-content: start;
+      will-change: transform;
+    }
+    .stack-card:last-of-type { border-bottom: 1px solid var(--border); }
+    .stack-strip { display: flex; align-items: center; gap: 14px; min-height: calc(var(--strip) - 38px); }
+    .stack-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(22px, 2.6vw, 34px);
+      color: var(--text);
+      letter-spacing: -0.015em;
+      line-height: 1.12;
+      transition: color 0.25s;
+    }
+    .stack-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text-dim);
+      margin-top: 14px;
+      max-width: 620px;
+      line-height: 1.6;
+    }
+    .stack-detail {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 620px;
+      margin-top: 16px;
+      text-wrap: pretty;
+    }
+    .stack-meta { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+    @media (max-width: 768px) {
+      .projects-stack { height: auto !important; }
+      .stack-stage { position: static; height: auto; overflow: visible; }
+      .stack-card { position: relative; transform: none !important; grid-template-columns: 40px 1fr; gap: 14px; padding-bottom: 32px; }
+      .stack-card .project-arrow { display: none; }
     }
 
     /* Expanded project */
@@ -697,12 +870,37 @@
     }
     .theme-btn:hover { transform: scale(1.2); }
     .theme-btn.active { border-color: var(--accent); }
+
+    /* Page background texture layer */
+    .page-texture { position: fixed; inset: 0; z-index: 31; pointer-events: none; }
+    .page-texture[data-tex="flat"] { display: none; }
+    .page-texture[data-tex="grid"] { opacity: 0.035; background-image: linear-gradient(var(--text) 1px, transparent 1px), linear-gradient(90deg, var(--text) 1px, transparent 1px); background-size: 60px 60px; }
+    .page-texture[data-tex="dots"] { opacity: 0.09; background-image: radial-gradient(var(--text) 1px, transparent 1.2px); background-size: 26px 26px; }
+    .page-texture[data-tex="grain"] { opacity: 0.13; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .page-texture[data-tex="glow"] { opacity: 0.5; background-image: radial-gradient(120% 80% at 50% -10%, var(--accent-dim) 0%, transparent 60%), radial-gradient(90% 60% at 100% 100%, var(--accent-dim) 0%, transparent 65%); }
   </style>
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
   <script type="text/babel">
+
+// Single source of truth for the site's design values.
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+Object.assign(window, { useTweaks });
+
+</script>
+  <script type="text/babel">
+
+
 
 
 
@@ -711,11 +909,16 @@
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "dark",
-  "accentColor": "#94dfff",
+  "accentColor": "#6ad0fb",
   "showCursor": true,
   "compactNav": false,
-  "heroStyle": "name-split"
-} /*EDITMODE-END*/;
+  "heroStyle": "name-split",
+  "projectLayout": "stacked",
+  "interestsStyle": "typewriter",
+  "volleyIcon": "panels",
+  "bgTexture": "glow",
+  "expStyle": "display"
+}/*EDITMODE-END*/;
 
 const THEMES = {
   dark: {
@@ -732,15 +935,41 @@ const THEMES = {
     border: 'rgba(0,0,0,0.1)',
     text: '#111110',
     textDim: 'rgba(17,17,16,0.45)',
-    cardBg: '#ffffff'
+    cardBg: '#ffffff',
+    accent: '#4ba3cf'
   },
-  warm: {
+  ink: {
+    bg: '#0b1020',
+    surface: '#111832',
+    border: 'rgba(190,205,255,0.10)',
+    text: '#e6e9f5',
+    textDim: 'rgba(230,233,245,0.45)',
+    cardBg: '#0e1428'
+  },
+  ember: {
+    bg: '#12100e',
+    surface: '#1a1714',
+    border: 'rgba(255,240,225,0.09)',
+    text: '#ece6de',
+    textDim: 'rgba(236,230,222,0.45)',
+    cardBg: '#171412'
+  },
+  slate: {
+    bg: '#1a1d21',
+    surface: '#22262b',
+    border: 'rgba(255,255,255,0.10)',
+    text: '#e6e9ec',
+    textDim: 'rgba(230,233,236,0.45)',
+    cardBg: '#1f2327'
+  },
+  paper: {
     bg: '#f4f1ec',
-    surface: '#ede9e2',
-    border: 'rgba(60,45,20,0.12)',
-    text: '#1e1a14',
-    textDim: 'rgba(30,26,20,0.45)',
-    cardBg: '#faf7f2'
+    surface: '#ebe7e0',
+    border: 'rgba(40,30,20,0.13)',
+    text: '#1b1813',
+    textDim: 'rgba(27,24,19,0.48)',
+    cardBg: '#fbf9f5',
+    accent: '#b4622e'
   }
 };
 
@@ -749,53 +978,64 @@ const PROJECTS = [
   id: 'bb84',
   num: '01',
   title: 'Quantum Cryptography Simulator',
-  subtitle: 'BB84 & EPR quantum key distribution in Wolfram Mathematica',
-  desc: 'A configurable simulator of the BB84 and EPR quantum key distribution protocols — modeling qubit preparation, basis selection, eavesdropping interference, and error rate analysis under varying noise scenarios.',
-  detail: 'Originally built in Wolfram Mathematica and currently being adapted to Python, this simulator models quantum cryptography protocols with configurable measurement bases, noise levels, and eavesdropping parameters. It includes visual analysis of error rates across different channel conditions and demonstrates how quantum measurement disturbance can make eavesdropping detectable in principle.',
+  subtitle: "BB84 & EPR quantum key distribution simulation",
+  desc: "A configurable simulator of the BB84 and EPR quantum key distribution protocols modeling qubit preparation, basis selection, eavesdropping interference, and error rate analysis under varying noise scenarios. Includes visual analysis of error rates across different channel conditions and demonstrates how quantum measurement disturbance can make eavesdropping detectable in principle.",
+  detail: '',
   tags: ['Quantum Computing', 'Cryptography', 'Wolfram Mathematica', 'Simulation'],
   highlight: 'Quantum Computing',
   links: []
 },
 {
-  id: 'ticket',
+  id: 'aptfinder',
   num: '02',
+  title: 'AptFinder',
+  subtitle: "Full-stack listing pipeline that helped me secure an apartment in NYC",
+  desc: "A real-time ingestion and ranking service for the NYC rental market, surfacing listings within minutes of publication and scoring them against transit access, commute time, and building violation history drawn from city open data. Catches new listings minutes after they go live, scores them against city open data, and sends a ranked alert with the inquiry already drafted. Inspired by the frustration of my own apartment search.",
+  detail: '',
+  tags: ['Python', 'SQLite', 'GenAI', 'Data Pipeline', 'NYC Open Data'],
+  highlight: 'Python',
+  links: []
+},
+{
+  id: 'ticket',
+  num: '03',
   title: 'TicketTracker',
-  subtitle: 'Google Flights, but for live event tickets',
-  desc: 'A price-tracking and comparison tool for live event tickets — bringing the transparency and intelligence of flight search to the fragmented, opaque secondary ticket market.',
-  detail: 'Aggregates ticket listings across platforms, tracks price history, and surfaces the optimal time to buy. Inspired by the friction of navigating StubHub, Ticketmaster, and SeatGeek separately for the same show.',
+  subtitle: "Google Flights for live event tickets",
+  desc: "A price-tracking and comparison tool for live event tickets, bringing the transparency and intelligence of flight search to the secondary ticket market. Aggregates ticket listings across platforms, tracks price history, and surfaces the optimal time to buy. Inspired by the friction of navigating StubHub, Ticketmaster, and SeatGeek separately for the same show.",
+  detail: '',
   tags: ['Web App', 'Data Aggregation', 'Price Tracking', 'UX'],
   highlight: 'Web App',
   links: []
 },
 {
   id: 'spin',
-  num: '03',
+  num: '04',
   title: 'Put A Spin On It',
-  subtitle: 'Making silicon spin qubits accessible',
-  desc: 'Unitary x Microsoft Hackathon submission. An educational platform demystifying silicon spin qubits, one of the most promising but least-understood approaches to quantum computing hardware.',
-  detail: 'Interactive visualizations and guided explanations take learners from classical bits to spin-based qubits. Designed for curious non-specialists who want more than a surface-level overview of quantum hardware.',
+  subtitle: "Educational website for silicon spin qubits",
+  desc: "Unitary x Microsoft Hackathon submission. An educational platform demystifying silicon spin qubits. Includes interactive visualizations and guided explanations from classical bits to spin-based qubits. Uses gesture recognition to allow users to rotate and pull apart 3D crystal lattice structure, and a game where real physics make up the rules. Designed for curious non-specialists who want more than a surface-level overview of quantum hardware.",
+  detail: '',
   tags: ['Education', 'Quantum Hardware', 'Interactive', 'Web'],
   highlight: 'Education',
   links: []
 },
 {
   id: 'safetynet',
-  num: '04',
+  num: '05',
   title: 'SafetyNet',
-  subtitle: 'Human-centered design · Columbia HCD Program',
-  desc: 'Designed a community-centered emergency communication system that turns trusted local spaces, such as bodegas, food carts, coffee shops, and doormen, into verified disaster information hubs for New Yorkers. Final Project for Human Centered Design.',
-  detail: 'Built a service design and app prototype for SafetyNet, a decentralized emergency communication network connecting residents, local hubs, and city agencies. The platform combines digital maps, physical storefront signage, emergency resource packets, and two-way local reporting to improve disaster communication for newcomers, immigrants, and residents in unfamiliar neighborhoods.',
+  subtitle: "Columbia x NYC.gov human-centered design submission",
+  desc: "Designed a community-centered emergency communication system that turns trusted local spaces, such as bodegas, food carts, coffee shops, and doormen, into verified disaster information hubs for New Yorkers. Final Project for Human Centered Design.",
+  detail: '',
   tags: ['Human Centered Design', 'Civic Tech', 'UX Research', 'Systems Design'],
-  highlight: 'HCD',
+  highlight: 'Human Centered Design',
   links: [{ label: 'Download design document', url: 'uploads/SafetyNet Design Document.pdf', download: true }]
 },
 {
   id: 'research',
-  num: '05',
+  num: '06',
   title: 'Cooperator-Defector Dynamics',
-  subtitle: 'Published in the Biophysical Journal · APS Global Physics Summit 2025',
-  desc: 'Spatial and probabilistic models combining game theory, computer science, and biophysics to simulate cell population dynamics. This paper explores how cooperation emerges and persists under evolutionary pressure.',
-  detail: 'Developed computational models in Python that integrate spatial game theory with probabilistic influence. Published in Biophysical Journal and presented at the BPS Global Summit in 2025. The models simulate cooperator-defector dynamics in biological systems.',
+  subtitle: "Published in the Biophysical Journal · APS Global Physics Summit 2025",
+  desc: "Spatial and probabilistic models combining game theory, computer science, and biophysics to simulate cell population dynamics. This paper explores how cooperation emerges and persists under evolutionary pressure. Published in Biophysical Journal and presented at the BPS Global Summit in 2025. The models simulate cooperator-defector dynamics in biological systems.",
+  detail: '',
   tags: ['Research', 'Biophysics', 'Game Theory', 'Python', 'Published'],
   highlight: 'Published',
   links: [{ label: 'Read paper', url: 'https://www.cell.com/biophysj/fulltext/S0006-3495(24)01527-3' }]
@@ -805,6 +1045,7 @@ const PROJECTS = [
 
 function useTheme(themeName, accentColor) {
   const t = THEMES[themeName] || THEMES.dark;
+  const accent = t.accent || accentColor;
   React.useEffect(() => {
     const root = document.documentElement;
     Object.entries({
@@ -814,28 +1055,45 @@ function useTheme(themeName, accentColor) {
       '--text': t.text,
       '--text-dim': t.textDim,
       '--card-bg': t.cardBg,
-      '--accent': accentColor,
-      '--accent-dim': accentColor + '1e',
-      '--accent-mid': accentColor + '59'
+      '--accent': accent,
+      '--accent-dim': accent + '1e',
+      '--accent-mid': accent + '59'
     }).forEach(([k, v]) => root.style.setProperty(k, v));
   }, [themeName, accentColor]);
 }
 
-function useScrollAnimation() {
+function useScrollAnimation(deps) {
   React.useEffect(() => {
-    const els = document.querySelectorAll('.animate-up');
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      }),
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-    );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+    let raf = 0, observer = null;
+    const reveal = (el) => el.classList.add('visible');
+    const sweep = () => {
+      document.querySelectorAll('.animate-up:not(.visible)').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.92 && r.bottom > 0) reveal(el);
+      });
+    };
+    const run = () => {
+      sweep();
+      if (typeof IntersectionObserver === 'function') {
+        observer = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) reveal(e.target); }),
+          { threshold: 0, rootMargin: '0px 0px -8% 0px' }
+        );
+        document.querySelectorAll('.animate-up:not(.visible)').forEach((el) => observer.observe(el));
+      }
+    };
+    raf = requestAnimationFrame(run);
+    window.addEventListener('scroll', sweep, { passive: true });
+    window.addEventListener('resize', sweep);
+    const safety = setTimeout(() => document.querySelectorAll('.animate-up').forEach(reveal), 2500);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(safety);
+      window.removeEventListener('scroll', sweep);
+      window.removeEventListener('resize', sweep);
+      if (observer) observer.disconnect();
+    };
+  }, deps);
 }
 
 function CursorDot({ enabled }) {
@@ -868,10 +1126,11 @@ function Nav({ theme, setTheme, tweakActive }) {
           <ul className="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#projects">Work</a></li>
+            <li><a href="#interests">Also Into</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
           <div className="theme-switcher">
-            {['dark', 'light', 'warm'].map((t) =>
+            {['dark', 'light'].map((t) =>
         <div
           key={t}
           className={`theme-btn${theme === t ? ' active' : ''}`}
@@ -913,7 +1172,7 @@ function useTypewriter(lines, { startDelay = 300, charDelay = 38, lineDelay = 18
 }
 
 function Hero({ heroStyle }) {
-  const [displayed, typeDone] = useTypewriter(['CS @ Columbia · Physics + Economics @ Claremont McKenna'], { startDelay: 600, charDelay: 45, lineDelay: 280 });
+  const [displayed, typeDone] = useTypewriter(['CS @ Columbia | Physics + Economics @ Claremont McKenna'], { startDelay: 600, charDelay: 45, lineDelay: 280 });
   const [showRest, setShowRest] = React.useState(false);
 
   React.useEffect(() => {
@@ -943,7 +1202,62 @@ function Hero({ heroStyle }) {
 
 }
 
-function About() {
+const ROLES = [
+{ role: 'Quantum Computing Intern', org: 'IonQ' },
+{ role: 'Software Engineering Intern', org: 'InfoPro Digital' },
+{ role: "Physics Research & Teacher's Assistant", org: 'W.M. Keck Science Department' }];
+
+
+function Experience({ variant }) {
+  if (variant === 'timeline') {
+    return (
+      <div className="role-timeline">
+            {ROLES.map((r) =>
+        <div key={r.org} className="rt-item">
+                <div className="rt-role">{r.role}</div>
+                <div className="rt-org">{r.org}</div>
+              </div>
+        )}
+          </div>);
+
+  }
+  if (variant === 'display') {
+    return (
+      <div className="role-display">
+            {ROLES.map((r) =>
+        <div key={r.org} className="rd-item">
+                <div className="rd-role">{r.role}</div>
+                <div className="rd-org">{r.org}</div>
+              </div>
+        )}
+          </div>);
+
+  }
+  if (variant === 'card') {
+    return (
+      <div className="role-cards">
+            {ROLES.map((r) =>
+        <div key={r.org} className="rc-item">
+                <div className="rc-role">{r.role}</div>
+                <div className="rc-org">{r.org}</div>
+              </div>
+        )}
+          </div>);
+
+  }
+  return (
+    <div className="role-list">
+          {ROLES.map((r) =>
+      <div key={r.org} className="role-item">
+              <div className="role-title">{r.role}</div>
+              <div className="role-org" style={{ fontFamily: '"DM Mono"' }}>{r.org}</div>
+            </div>
+      )}
+        </div>);
+
+}
+
+function About({ expStyle }) {
   return (
     <section id="about">
           <div className="container">
@@ -986,20 +1300,16 @@ function About() {
                   </div>
                 </div>
                 <div>
-                  <div className="skill-group-label">Domains</div>
-                  <div className="skill-tags">
-                    {['Quantum Computing', 'AI Integration', 'Machine Learning'].map((s) =>
-                <span key={s} className="skill-tag">{s}</span>
-                )}
-                  </div>
-                </div>
-                <div>
                   <div className="skill-group-label">Human Languages</div>
                   <div className="skill-tags">
                     {['French (native)', 'Mandarin (native)', 'Spanish (C1)', 'English'].map((s) =>
                 <span key={s} className="skill-tag">{s}</span>
                 )}
                   </div>
+                </div>
+                <div>
+                  <div className="skill-group-label" style={{ fontWeight: "500" }}>EXPERIENCE</div>
+                  <Experience variant={expStyle} />
                 </div>
               </div>
             </div>
@@ -1028,8 +1338,8 @@ function ProjectCard({ project, index }) {
           <div className={`project-expanded${open ? ' open' : ''}`}>
             <div className="project-expanded-inner">
               <div>
-                <div className="expand-label">About the project</div>
-                <div className="expand-content">{project.detail}</div>
+                {project.detail ? <div className="expand-label">About the project</div> : null}
+                {project.detail ? <div className="expand-content">{project.detail}</div> : null}
                 {project.links.length > 0 ?
             project.links.map((l) =>
             l.download ?
@@ -1062,7 +1372,330 @@ function ProjectCard({ project, index }) {
 
 }
 
-function Projects() {
+function StackCard({ project, index }) {
+  return (
+    <div className="stack-card" data-si={index} style={{ zIndex: index + 1 }}>
+            <div className="project-num mono" style={{ paddingTop: '10px' }}>{project.num}</div>
+            <div>
+              <div className="stack-strip">
+                <div className="stack-title">{project.title}</div>
+              </div>
+              {project.subtitle ? <div className="stack-sub">{project.subtitle}</div> : null}
+              <div className="stack-detail">{project.detail || project.desc}</div>
+              <div className="stack-meta">
+                <div className="project-tags">
+                  {project.tags.map((tag) =>
+              <span key={tag} className={`project-tag${tag === project.highlight ? ' highlight' : ''}`}>{tag}</span>
+              )}
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px' }}>
+                  {project.links.length > 0 ?
+              project.links.map((l) =>
+              <a key={l.url} className="expand-link" href={l.url} {...l.download ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' }}>
+                      {l.label} →
+                    </a>
+              ) :
+              <a className="expand-link" href="https://github.com/ann-mahe" target="_blank" rel="noopener noreferrer">
+                    View on GitHub →
+                  </a>
+              }
+                </div>
+              </div>
+            </div>
+            <div className="project-arrow" style={{ paddingTop: '10px' }}>↗</div>
+        </div>);
+
+}
+
+function useStackScroll(ref, count, active) {
+  React.useEffect(() => {
+    if (!active) return;
+    const wrap = ref.current;
+    if (!wrap) return;
+    let raf = 0;
+    const layout = () => {
+      raf = 0;
+      const cards = [...wrap.querySelectorAll('.stack-card')];
+      if (!cards.length) return;
+      const cs = getComputedStyle(wrap);
+      const base = parseFloat(cs.getPropertyValue('--stack-base')) || 72;
+      const strip = parseFloat(cs.getPropertyValue('--strip')) || 96;
+      const vh = window.innerHeight;
+      if (window.innerWidth <= 768) {
+        cards.forEach((c) => c.style.transform = '');
+        return;
+      }
+      const r = wrap.getBoundingClientRect();
+      const span = Math.max(1, wrap.offsetHeight - vh);
+      const p = Math.min(1, Math.max(0, -r.top / span));
+      const act = p * (count - 1);
+      const heights = cards.map((c) => c.offsetHeight);
+      const need = (i) => Math.max(0, base + i * strip + heights[i] + 28 - vh);
+      const i0 = Math.min(count - 1, Math.floor(act));
+      const i1 = Math.min(count - 1, i0 + 1);
+      const fr = Math.min(1, Math.max(0, act - i0));
+      const shift = need(i0) + (need(i1) - need(i0)) * (fr * fr * (3 - 2 * fr));
+      cards.forEach((c, i) => {
+        const t = i === 0 ? 1 : Math.min(1, Math.max(0, act - (i - 1)));
+        const e = t * t * (3 - 2 * t);
+        const y = (1 - e) * (vh - 8) + e * (base + i * strip - shift);
+        c.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+      });
+    };
+    const onScroll = () => {
+      layout();
+      if (!raf) raf = requestAnimationFrame(layout);
+    };
+    layout();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [ref, count, active]);
+}
+
+const INTERESTS = [
+{ name: 'Guzheng', note: 'Chinese harp', icon: 'music' },
+{ name: 'Snowboarding', note: '', icon: 'snow' },
+{ name: 'Guitar', note: '', icon: 'guitar' },
+{ name: 'Hiking', note: '', icon: 'hike' },
+{ name: 'Baking', note: '', icon: 'bake' },
+{ name: 'Innertube waterpolo', note: '', icon: 'tube' },
+{ name: 'Beach volleyball', note: '', icon: 'volley' }];
+
+
+const SK = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.4, strokeLinecap: 'round', strokeLinejoin: 'round' };
+
+function InterestSketch({ kind, vars = {} }) {
+  const common = { viewBox: '0 0 120 96', width: '100%', height: '100%', 'aria-hidden': 'true' };
+
+  if (kind === 'music')
+  return (
+    <svg {...common}>
+      <g transform="translate(9 -2)"><g className="sk-bob">
+        <path {...SK} strokeWidth="1.7" d="M32 84 C 28 58 29 32 36 18" />
+        <path {...SK} strokeWidth="1.7" d="M36 18 C 50 13 66 22 76 42" />
+        <path {...SK} strokeWidth="1.7" d="M76 42 L34 84" />
+        <path {...SK} strokeWidth="1.7" d="M77 44 C 70 58 58 72 36 84" opacity="0.75" />
+        <path {...SK} strokeWidth="1.7" d="M26 86 H62" />
+        <path {...SK} strokeWidth="1.4" d="M36 18 C 31 13 25 15 26 21 C 26.5 24 30 24 30 21" opacity="0.8" />
+        <path {...SK} strokeWidth="1" d="M41.1 16.8 V76.9" opacity="0.5" />
+        <path {...SK} strokeWidth="1" d="M46.3 16.8 V71.7" opacity="0.5" />
+        <path {...SK} strokeWidth="1" d="M51.5 17.9 V66.5" opacity="0.5" />
+        <path {...SK} strokeWidth="1" d="M56.7 20.2 V61.3" opacity="0.5" />
+        <path {...SK} strokeWidth="1" d="M62.4 24.1 V55.6" opacity="0.5" />
+        <path {...SK} strokeWidth="1" d="M67.9 29.6 V50.1" opacity="0.5" />
+        <path {...SK} strokeWidth="1" d="M72.2 35.3 V45.9" opacity="0.5" />
+      </g></g>
+    </svg>);
+
+  if (kind === 'bake')
+  return (
+    <svg {...common}>
+      <path {...SK} d="M30 54 A 30 25 0 0 0 90 54" />
+      <path {...SK} d="M24 54 H96" />
+      <path {...SK} d="M69 51 L86 30" />
+      <ellipse {...SK} cx="89" cy="25" rx="7" ry="5" transform="rotate(-40 89 25)" />
+      <g className="sk-float">
+        <circle {...SK} cx="44" cy="34" r="1.6" opacity="0.7" />
+        <circle {...SK} cx="55" cy="24" r="1.6" opacity="0.5" />
+        <circle {...SK} cx="36" cy="22" r="1.6" opacity="0.55" />
+      </g>
+    </svg>);
+
+  if (kind === 'guitar')
+  return (
+    <svg {...common}>
+      <g transform="rotate(-22 60 48)"><g className="sk-bob">
+        <path {...SK} strokeWidth="1.6" d="M60 42 C 49 42 44 49 47 57 C 38 63 40 82 53 87 C 57 88.6 63 88.6 67 87 C 80 82 82 63 73 57 C 76 49 71 42 60 42 Z" />
+        <circle {...SK} cx="60" cy="69" r="5.5" opacity="0.65" />
+        <path {...SK} strokeWidth="1.6" d="M56 42 V16" />
+        <path {...SK} strokeWidth="1.6" d="M64 42 V16" />
+        <path {...SK} strokeWidth="1.6" d="M55 16 h10 l-1.5 -8 h-7 Z" />
+        <path {...SK} strokeWidth="0.8" d="M56.8 18 L57.6 80" opacity="0.5" />
+        <path {...SK} strokeWidth="0.8" d="M58.9 18 L59.2 80" opacity="0.5" />
+        <path {...SK} strokeWidth="0.8" d="M61.1 18 L60.8 80" opacity="0.5" />
+        <path {...SK} strokeWidth="0.8" d="M63.2 18 L62.4 80" opacity="0.5" />
+      </g></g>
+    </svg>);
+
+  if (kind === 'tube')
+  return (
+    <svg {...common}>
+      <g className="sk-bob">
+        <circle {...SK} cx="60" cy="42" r="20" />
+        <path {...SK} d="M41 36 q19 -6 38 0" opacity="0.55" />
+        <path {...SK} d="M41 48 q19 6 38 0" opacity="0.55" />
+      </g>
+      <path {...SK} className="sk-wave" d="M26 68 q8.5 -6 17 0 t17 0 t17 0 t17 0" />
+      <path {...SK} className="sk-wave sk-d2" d="M26 80 q8.5 -6 17 0 t17 0 t17 0 t17 0" opacity="0.4" />
+    </svg>);
+
+  if (kind === 'volley') {
+    const v = vars.volley || 'panels';
+    return (
+      <svg {...common}>
+        <path {...SK} strokeWidth="1.5" d="M20 34 V74" opacity="0.6" />
+        <path {...SK} strokeWidth="1.5" d="M100 34 V74" opacity="0.6" />
+        <path {...SK} strokeWidth="1.5" d="M20 40 H100" opacity="0.6" />
+        <path {...SK} strokeWidth="0.9" d="M20 46 H100 M20 52 H100 M20 58 H100" opacity="0.28" />
+        <path {...SK} strokeWidth="0.9" d="M32 40 V58 M44 40 V58 M56 40 V58 M68 40 V58 M80 40 V58 M92 40 V58" opacity="0.28" />
+        <g className="sk-bounce">
+          <circle {...SK} cx="72" cy="34" r="15" />
+          {v === 'panels' &&
+          <React.Fragment>
+            <path {...SK} d="M58 30 C 66 26 78 26 86 30" opacity="0.5" />
+            <path {...SK} d="M58 39 C 66 43 78 43 86 39" opacity="0.5" />
+          </React.Fragment>}
+          {v === 'bands' &&
+          <React.Fragment>
+            <path {...SK} d="M60 26 C 66 23 78 30 84 26" opacity="0.5" />
+            <path {...SK} d="M57 34 C 63 31 81 37 87 34" opacity="0.5" />
+            <path {...SK} d="M60 42 C 66 39 78 45 84 42" opacity="0.5" />
+          </React.Fragment>}
+          {v === 'pinwheel' &&
+          <React.Fragment>
+            <path {...SK} d="M72 34 C 67 32 63 32 57 34" opacity="0.5" />
+            <path {...SK} d="M72 34 C 67 32 63 32 57 34" opacity="0.5" transform="rotate(120 72 34)" />
+            <path {...SK} d="M72 34 C 67 32 63 32 57 34" opacity="0.5" transform="rotate(240 72 34)" />
+          </React.Fragment>}
+          {v === 'single' && <path {...SK} d="M72 19 C 67 25 77 43 72 49" opacity="0.5" />}
+        </g>
+      </svg>);
+
+  }
+
+  if (kind === 'hike')
+  return (
+    <svg {...common}>
+      <g className="sk-float">
+        <circle {...SK} cx="34" cy="24" r="7" opacity="0.55" />
+      </g>
+      <path {...SK} d="M26 76 L50 34 L64 54 L76 38 L96 76" />
+      <path {...SK} d="M43 45 L50 48 L57 45" opacity="0.6" />
+      <path {...SK} d="M26 76 H96" opacity="0.35" />
+    </svg>);
+
+  return (
+    <svg {...common}>
+      <g className="sk-carve">
+        <g transform="rotate(24 60 48)">
+          <path {...SK} strokeWidth="1.8" d="M60 12 C 64.5 12 67 17 67 26 L67 70 C 67 79 64.5 84 60 84 C 55.5 84 53 79 53 70 L53 26 C 53 17 55.5 12 60 12 Z" />
+          <rect {...SK} strokeWidth="1.2" x="55" y="33" width="10" height="5" rx="1.6" opacity="0.6" />
+          <rect {...SK} strokeWidth="1.2" x="55" y="58" width="10" height="5" rx="1.6" opacity="0.6" />
+        </g>
+      </g>
+      <g className="sk-float">
+        <path {...SK} d="M27 26 V35 M22.5 27.5 L31.5 33.5 M31.5 27.5 L22.5 33.5" opacity="0.45" />
+        <path {...SK} d="M92 34 V41 M88.5 35.5 L95.5 39.5 M95.5 35.5 L88.5 39.5" opacity="0.28" />
+      </g>
+    </svg>);
+
+}
+
+
+function useCycleTyper(items, on) {
+  const [idx, setIdx] = React.useState(0);
+  const [len, setLen] = React.useState(0);
+  const [erasing, setErasing] = React.useState(false);
+  React.useEffect(() => {
+    if (!on) return;
+    const word = items[idx];
+    let t;
+    if (!erasing && len < word.length) t = setTimeout(() => setLen(len + 1), 62);
+    else if (!erasing && len === word.length) t = setTimeout(() => setErasing(true), 1500);
+    else if (erasing && len > 0) t = setTimeout(() => setLen(len - 1), 28);
+    else {
+      setErasing(false);
+      setIdx((i) => (i + 1) % items.length);
+    }
+    return () => clearTimeout(t);
+  }, [len, erasing, idx, on, items]);
+  const jump = React.useCallback((n) => { setIdx(n); setErasing(false); setLen(items[n].length); }, [items]);
+  return [items[idx].slice(0, len), idx, jump];
+}
+
+function WipeRow({ item, index }) {
+  const ref = React.useRef(null);
+  const [seen, setSeen] = React.useState(false);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => e.isIntersecting && setSeen(true)),
+      { threshold: 0.4 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={`wp-row${seen ? ' in' : ''}`}>
+          <span className="wp-name" style={{ transitionDelay: `${index * 0.09}s` }}>{item.name}</span>
+          {item.note ? <span className="wp-note">{item.note}</span> : null}
+        </div>);
+
+}
+
+function Interests({ variant, vars }) {
+  const [typed, activeIdx, jumpTo] = useCycleTyper(INTERESTS.map((i) => i.name), variant === 'typewriter');
+  const fanRot = [-14, -7, 0, 7, 14];
+  const fanY = [12, 2, -6, 2, 12];
+  return (
+    <div className="interests-panel" id="interests">
+          <div className="interests-head animate-up">
+            <span className="section-num">02</span>
+            <h2>Also into</h2>
+            <div className="section-line" />
+          </div>
+          {variant === 'typewriter' ?
+      <div className="it-wrap">
+            <div className="it-stage">
+              <div className="it-fig" key={INTERESTS[activeIdx].icon}>
+                <InterestSketch kind={INTERESTS[activeIdx].icon} vars={vars} />
+              </div>
+              <div className="it-line">{typed}<span className="it-caret" /></div>
+            </div>
+            <div className="it-dots">
+              {INTERESTS.map((it, i) =>
+        <button type="button" key={it.name} className={`it-dot${i === activeIdx ? ' on' : ''}`} onClick={() => jumpTo(i)}>{it.name}</button>
+        )}
+            </div>
+          </div> :
+      variant === 'cards' ?
+      <div>
+            <div className="fan">
+              {INTERESTS.map((it, i) =>
+        <div className="fan-card" key={it.name} style={{ '--r': `${fanRot[i]}deg`, '--y': `${fanY[i]}px` }}>
+                  <div className="fan-inner">
+                    <div className="fan-face fan-front">
+                      <span className="fan-mark">{String(i + 1).padStart(2, '0')}</span>
+                    </div>
+                    <div className="fan-face fan-back">
+                      <span className="fan-name">{it.name}</span>
+                      {it.note ? <span className="fan-note">{it.note}</span> : null}
+                    </div>
+                  </div>
+                </div>
+        )}
+            </div>
+            <div className="fan-hint">Hover to reveal</div>
+          </div> :
+
+      <div className="wp-list">
+            {INTERESTS.map((it, i) => <WipeRow key={it.name} item={it} index={i} />)}
+          </div>
+      }
+        </div>);
+
+}
+
+function Projects({ layout, interestsStyle, iconVars }) {
+  const stacked = layout === 'stacked';
+  const stackRef = React.useRef(null);
+  useStackScroll(stackRef, PROJECTS.length, stacked);
   return (
     <section id="projects">
           <div className="container">
@@ -1071,9 +1704,18 @@ function Projects() {
               <h2 className="section-title serif">Projects</h2>
               <div className="section-line" />
             </div>
-            <div className="projects-list">
+            {stacked ?
+        <div className="projects-stack" ref={stackRef} style={{ '--stack-base': '72px', '--strip': '96px', '--n': PROJECTS.length }}>
+              <div className="stack-stage">
+                {PROJECTS.map((p, i) => <StackCard key={p.id} project={p} index={i} />)}
+              </div>
+            </div> :
+
+        <div className="projects-list">
               {PROJECTS.map((p, i) => <ProjectCard key={p.id} project={p} index={i} />)}
             </div>
+        }
+            <Interests variant={interestsStyle} vars={iconVars} />
           </div>
         </section>);
 
@@ -1086,7 +1728,7 @@ function Contact() {
     <section id="contact">
           <div className="container">
             <div className="section-header animate-up">
-              <span className="section-num">02</span>
+              <span className="section-num">03</span>
               <h2 className="section-title serif">Contact</h2>
               <div className="section-line" />
             </div>
@@ -1120,16 +1762,17 @@ function Contact() {
 function App() {
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   useTheme(tweaks.theme, tweaks.accentColor);
-  useScrollAnimation();
+  useScrollAnimation([tweaks.theme, tweaks.heroStyle, tweaks.projectLayout, tweaks.interestsStyle]);
 
   return (
     <>
           <CursorDot enabled={tweaks.showCursor} />
+          <div className="page-texture" data-tex={tweaks.bgTexture} />
           <Nav theme={tweaks.theme} setTheme={(t) => setTweak('theme', t)} />
           <main>
             <Hero heroStyle={tweaks.heroStyle} />
-            <About />
-            <Projects />
+            <About expStyle={tweaks.expStyle} />
+            <Projects layout={tweaks.projectLayout} interestsStyle={tweaks.interestsStyle} iconVars={{ volley: tweaks.volleyIcon }} />
             <Contact />
           </main>
           <footer>
@@ -1140,15 +1783,6 @@ function App() {
               </div>
             </div>
           </footer>
-          <TweaksPanel>
-            <TweakSection label="Theme" />
-            <TweakRadio label="Color Mode" value={tweaks.theme} options={['dark', 'light', 'warm']} onChange={(v) => setTweak('theme', v)} />
-            <TweakColor label="Accent Color" value={tweaks.accentColor} onChange={(v) => setTweak('accentColor', v)} />
-            <TweakSection label="Hero" />
-            <TweakRadio label="Name Layout" value={tweaks.heroStyle} options={['name-split', 'name-inline']} onChange={(v) => setTweak('heroStyle', v)} />
-            <TweakSection label="Details" />
-            <TweakToggle label="Custom Cursor Dot" value={tweaks.showCursor} onChange={(v) => setTweak('showCursor', v)} />
-          </TweaksPanel>
         </>);
 
 }

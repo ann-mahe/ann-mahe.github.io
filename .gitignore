@@ -1,0 +1,9 @@
+# working files, not part of the published site
+scraps/
+.thumbnail
+
+# only the assets the site actually links get published
+uploads/*
+!uploads/Ann_Mahe_Resume.pdf
+!uploads/SafetyNet Design Document.pdf
+!uploads/ann-photo.jpg
